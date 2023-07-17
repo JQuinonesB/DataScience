@@ -72,7 +72,7 @@ dataset = []
 base_url = 'https://comtradeapi.un.org/public/V1/preview/'
 
 def fetch_trade_data(country_code, year):
-    url = f'{base_url}S/A/EB?reporterCode={country_code}&period=2020&partnerCode=0&motCode=0&cmdCode=200&flowCode=M,X'
+    url = f'{base_url}S/A/EB?reporterCode={country_code}&period={year}&partnerCode=0&motCode=0&cmdCode=200&flowCode=M,X'
     response = requests.get(url)
     data = response.json()
     if data['count'] == 0:
