@@ -1,6 +1,4 @@
-import pandas
 import requests
-import comtradeapicall
 import pandas as pd
 import time
 
@@ -77,7 +75,7 @@ def fetch_trade_data(country_code, year):
     data = response.json()
     if data['count'] == 0:
         return
-        
+
 
     for dato in data ['data']:
         Trade_Table = {
@@ -88,14 +86,13 @@ def fetch_trade_data(country_code, year):
         }
         dataset.append(Trade_Table)
 
-    
+
     #print (data ['data'])
     return dataset
 # Example usage
-country_code = ','.join(str(val) for val in keys) 
+country_code = ','.join(str(val) for val in keys)
 for year in years_list:
     trade_data = fetch_trade_data(country_code, year)
     time.sleep(5)
 
 print(dataset)
-                 
