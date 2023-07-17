@@ -65,37 +65,59 @@ values = ["Afghanistan","Albania","Antarctica","Algeria","American Samoa","Andor
 
 Countries_dict = dict(zip(keys, values))
 TrTy_dict = {"M": 'Import', "X": "Export"}
-years_list = [1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,
-              2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020]
+years_list = [2020]
 dataset = []
 
 base_url = 'https://comtradeapi.un.org/public/V1/preview/'
 
 def fetch_trade_data(country_code, year):
-    url = f'{base_url}S/A/EB?reporterCode={country_code}&period=2020&partnerCode=0&motCode=0&cmdCode=200&flowCode=M,X'
+    url = f'https://comtradeapi.un.org/public/V1/preview/S/A/EB?reporterCode={country_code}&period=2020&partnerCode=0&motCode=0&cmdCode=200&flowCode=M,X'
     response = requests.get(url)
     data = response.json()
-    if data['count'] == 0:
-        return
-        
-
-    for dato in data ['data']:
-        Trade_Table = {
-        "Country": Countries_dict[(dato['reporterCode'])],
-        "Year": dato['period'],
-        "Trade Type": TrTy_dict[dato['flowCode']],
-        "Trade Value": dato['primaryValue']
-        }
-        dataset.append(Trade_Table)
+   
 
     
-    #print (data ['data'])
-    return dataset
+    print (data)
+    return 
 # Example usage
-country_code = ','.join(str(val) for val in keys) 
-for year in years_list:
-    trade_data = fetch_trade_data(country_code, year)
-    time.sleep(5)
+country_code = ','.join(str(val) for val in keys)
+trade_data = fetch_trade_data(country_code, 2020)
 
-print(dataset)
+
+# Calculate total exports and imports for each country
+grouped_df = cleaned_df.groupby('Country').sum()
+grouped_df['TotalTrade'] = grouped_df['TradeValue']
+grouped_df = grouped_df[['TotalTrade']]
+grouped_df = grouped_df.sort_values('TotalTrade', ascending=False)
+
+# Get the top 10 and bottom 10 countries
+top_10_countries = grouped_df.head(10)
+bottom_10_countries = grouped_df.tail(10)
+
+
+
+
+import matplotlib.pyplot as plt
+
+# Plotting the trade volumes for the top 10 countries
+plt.figure(figsize=(10, 6))
+plt.bar(top_10_countries.index, top_10_countries['TotalTrade'])
+plt.xlabel('Country')
+plt.ylabel('Trade Volume (US$)')
+plt.title('Top 10 Countries in International Trade in Services')
+plt.xticks(rotation=45)
+plt.show()
+
+# Plotting the trade development over years for a specific country
+country_name = 'United States'
+country_df = cleaned_df[cleaned_df['Country'] == country_name]
+
+plt.figure(figsize=(10, 6))
+plt.plot(country_df['yr'], country_df['TradeValue'])
+plt.xlabel('Year')
+plt.ylabel('Trade Volume (US$)')
+plt.title(f'Trade Development over Years - {country_name}')
+plt.xticks(rotation=45)
+plt.show()
+
                  
