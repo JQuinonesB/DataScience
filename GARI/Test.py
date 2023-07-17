@@ -95,8 +95,6 @@ top_10_countries = grouped_df.head(10)
 bottom_10_countries = grouped_df.tail(10)
 
 
-
-
 import matplotlib.pyplot as plt
 
 # Plotting the trade volumes for the top 10 countries
