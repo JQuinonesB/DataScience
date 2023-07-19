@@ -1,0 +1,27 @@
+1. Read about API documentation.
+
+2. Create a Request URL and test it using POSTMAN.
+
+3. Create a code in python that fetches the required Data using request library.
+    - Bear in mind the necesity to send a request for each year, since the API
+      supports just one year per request; for that, the easiest way is using a
+      for loop that uses each valuo on a list of years.
+    - Consider formatting the list created with the country codes into a string
+      that is suported withing the reques URL string.
+
+4. Clean the obtained data into a data set using just the required columns
+   and infrmation.
+    - Get the relevant data from the JSON in the response data.
+    - Extract and label the new data for each iteration year and append it to the new
+      data set.
+
+5. Organize the information using pandas.
+    - Confert data set into a data frame.
+    - Group data by name.
+    - Group data by trade value.
+    - get the top 10 and the bottom 10 of the data frame.
+
+8. Use matplot library to visualize the organized data.
+    - Use formatting variables to set the data in an easy way for preventing overlaping
+      of showed information.
+    - Format the total trade values for displayin them in a shorter way for easyness.
